@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <title>Form</title>
+</head>
+<body bgcolor="skyblue">
+   <h1 style="text-align:center;color:white;">Newsletter Sign-Up</h1>
+   <form name="MyForm" method="get" action="/thankyou.html">
+     <div style="text-align:center;">
+     <input type="text" name="fullname"  placeholder="Your name" required><br>
+     <input type="email" name="email"  placeholder="Your email" required><br>
+     <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" maxlength="12" placeholder="123-456-7890" required><br>
+     <input type="submit" name="submit"  value="Submit" onClick="javascript:return checkinput();">
+    </div>
+   </form>
+<script>
+function checkinput()
+  {
+    //variable declaration
+    var myFormsubmit;
+    var myFormerrors;
+
+    //at the beginning the submit for is set to true. 
+    myFormsubmit = true;
+
+    //Here the value of the variables are retrieved,checked and sanatized 
+    //by assuming they are unsafe
+   
+    var fullname    = new String(document.MyForm.fullname.value);
+    var email   = new String(document.MyForm.email.value);
+    var phone   = new tel(document.MyForm.phone.value);
+
+
+    //checking the user inputs are not blank by
+    //using logical operator 
+    if (fullname.length<1 && email.length<1 && phone.length<1)
+    {
+    myFormerrors = "All fields are mandatory. Please complete the form.";
+    myFormsubmit = false;
+    } else {
+//email filter pattern
+var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    
+    //using test method to check with the filter pattern
+     if (!filter.test(email))
+    {
+        FormErrors = "Your form contains invalid field entries. Please correct your form before submitting";
+        SubmitForm = false;
+     }
+    if (SubmitForm == false)
+    {
+        //The form cannot be submitted.
+        alert(FormErrors);
+        return false;
+    } else {
+        //sanitizing user inputs in name and email fiel [a-z 0-9 _ - . @] pattern
+        //strip forbidden characters
+        fullname = fullname.replace(/[^a-z0-9_@.-]/gim,"");
+        fullname = fullname.trim();
+        email = email.replace(/[^a-z0-9_@.-]/gim,"");
+        email = email.trim();
+        //sanitizing user inputs phone number [0-9 in 3-3--4 pattern with dash only] 
+        //strip forbidden characters
+         phone = phone.replace(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
+         phone = phone.trim();
+
+        //ready to be submitted
+        document.MyForm.submit();
+    }
+}
+</script>
+</body>
+</html>
